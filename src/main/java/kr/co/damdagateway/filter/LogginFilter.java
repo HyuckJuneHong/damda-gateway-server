@@ -3,18 +3,20 @@ package kr.co.damdagateway.filter;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
+import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.core.Ordered;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 @Component
 @Slf4j
-public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Config> {
+public class LogginFilter extends AbstractGatewayFilterFactory<LogginFilter.Config> {
 
-    public GlobalFilter() {
-        super(Config.class);
+    public LogginFilter() {
+        super(LogginFilter.Config.class);
     }
 
     @Data
@@ -25,29 +27,32 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
     }
 
     @Override
-    public GatewayFilter apply(Config config) {
-        return (exchange, chain) -> {
+    public GatewayFilter apply(LogginFilter.Config config) {
+
+        GatewayFilter gatewayFilter = new OrderedGatewayFilter((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
-            log.info("Global Filter baseMessage: {}", config.getBaseMessage());
+            log.info("Logging Filter baseMessage: {}", config.getBaseMessage());
             getRequestId(config, request);
 
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
                 getResponseStatusCode(config, response);
             }));
-        };
+        }, Ordered.HIGHEST_PRECEDENCE);
+
+        return gatewayFilter;
     }
 
-    private void getRequestId(GlobalFilter.Config config, ServerHttpRequest request){
+      private void getRequestId(LogginFilter.Config config, ServerHttpRequest request){
         if(config.isPostLogger()){
-            log.info("Global Filter Start: Request ID -> {}", request.getId());
+            log.info("Logging Pre Filter: Request ID -> {}", request.getId());
         }
     }
 
-    private void getResponseStatusCode(GlobalFilter.Config config, ServerHttpResponse response){
+    private void getResponseStatusCode(LogginFilter.Config config, ServerHttpResponse response){
         if(config.isPostLogger()){
-            log.info("Global Filter End: Response Code -> {}", response.getStatusCode());
+            log.info("Logging Post Filter: Response Code -> {}", response.getStatusCode());
         }
     }
 }
