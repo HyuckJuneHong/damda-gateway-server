@@ -19,14 +19,12 @@ public class CustomFilter extends AbstractGatewayFilterFactory<CustomFilter.Conf
     /**
      * Configuration Properties
      */
-    public static class Config{
-
-    }
+    public static class Config{}
 
     /**
      * Custom Pre Filter
      * Mono : Webflux로 비동기 방식의 서버에서 단일값을 전달할 때 사용한다.
-     * @param config식
+     * @param config
      * @return : ServerHttpResponse의 Status Code 값
      */
     @Override
