@@ -19,8 +19,12 @@ spring:
           uri: http://127.0.0.1:8081/
           predicates:
             - Path=/first-service/**
+          filters:
+            - CustomFilter
 
         - id: second-service
           uri: http://127.0.0.1:8082/
           predicates:
             - Path=/second-service/**
+          filters:
+            - CustomFilter
