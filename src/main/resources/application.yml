@@ -3,8 +3,8 @@ server:
 
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
 
@@ -22,22 +22,15 @@ spring:
             postLogger: true
 
       routes:
-        - id: first-service
-          uri: http://127.0.0.1:8081/
+        - id: damda-user
+          uri: lb://DAMDA-USER
           predicates:
-            - Path=/first-service/**
-          filters:
-            - CustomFilter
-
-        - id: second-service
-          uri: http://127.0.0.1:8082/
-          predicates:
-            - Path=/second-service/**
+            - Path=/damda-user/**
           filters:
             - name: CustomFilter
             - name: LoggingFilter
               args:
-                baseMessage: Hi, there.
+                baseMessage: Hi, there. Logging Filter
                 preLogger: true
                 postLogger: true
 

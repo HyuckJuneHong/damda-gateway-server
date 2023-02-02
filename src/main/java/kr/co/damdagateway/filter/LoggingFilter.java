@@ -13,10 +13,10 @@ import reactor.core.publisher.Mono;
 
 @Component
 @Slf4j
-public class LogginFilter extends AbstractGatewayFilterFactory<LogginFilter.Config> {
+public class LoggingFilter extends AbstractGatewayFilterFactory<LoggingFilter.Config> {
 
-    public LogginFilter() {
-        super(LogginFilter.Config.class);
+    public LoggingFilter() {
+        super(LoggingFilter.Config.class);
     }
 
     @Data
@@ -27,7 +27,7 @@ public class LogginFilter extends AbstractGatewayFilterFactory<LogginFilter.Conf
     }
 
     @Override
-    public GatewayFilter apply(LogginFilter.Config config) {
+    public GatewayFilter apply(LoggingFilter.Config config) {
 
         GatewayFilter gatewayFilter = new OrderedGatewayFilter((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
@@ -44,13 +44,13 @@ public class LogginFilter extends AbstractGatewayFilterFactory<LogginFilter.Conf
         return gatewayFilter;
     }
 
-      private void getRequestId(LogginFilter.Config config, ServerHttpRequest request){
+      private void getRequestId(LoggingFilter.Config config, ServerHttpRequest request){
         if(config.isPostLogger()){
             log.info("Logging Pre Filter: Request ID -> {}", request.getId());
         }
     }
 
-    private void getResponseStatusCode(LogginFilter.Config config, ServerHttpResponse response){
+    private void getResponseStatusCode(LoggingFilter.Config config, ServerHttpResponse response){
         if(config.isPostLogger()){
             log.info("Logging Post Filter: Response Code -> {}", response.getStatusCode());
         }
