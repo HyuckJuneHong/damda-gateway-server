@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DamdagatewayApplication {
+public class DamdaGatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DamdagatewayApplication.class, args);
+        SpringApplication.run(DamdaGatewayApplication.class, args);
     }
 
 }
