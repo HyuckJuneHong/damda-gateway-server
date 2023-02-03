@@ -33,4 +33,8 @@ spring:
                 baseMessage: Hi, there. Logging Filter
                 preLogger: true
                 postLogger: true
+        - id: damda-product
+          uri: lb://DAMDA-PRODUCT
+          predicates:
+            - Path=/damda-product/**
 
