@@ -28,27 +28,27 @@ spring:
           predicates:
             - Path=/damda-user/users/login
             - Method=POST
-            filters:
-              - RemoveRequestHeader=Cookie
-              - RewritePath=/damda-user/(?<segment>.*), /$\{segment}
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/damda-user/(?<segment>.*), /$\{segment}
 
         - id: damda-user
           uri: lb://DAMDA-USER
           predicates:
             - Path=/damda-user/users
             - Method=POST
-            filters:
-              - RemoveRequestHeader=Cookie
-              - RewritePath=/damda-user/(?<segment>.*), /$\{segment}
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/damda-user/(?<segment>.*), /$\{segment}
 
         - id: damda-user
           uri: lb://DAMDA-USER
           predicates:
-            - Path=/damda-user/**
+            - Path=/damda-user/users/**
             - Method=GET
-            filters:
-              - RemoveRequestHeader=Cookie
-              - RewritePath=/damda-user/(?<segment>.*), /$\{segment}
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/damda-user/(?<segment>.*), /$\{segment}
 
         #PRODUCT Gateway
         - id: damda-product
