@@ -22,23 +22,41 @@ spring:
             postLogger: true
 
       routes:
+        #USER Gateway
+        - id: damda-user
+          uri: lb://DAMDA-USER
+          predicates:
+            - Path=/damda-user/users/login
+            - Method=POST
+            filters:
+              - RemoveRequestHeader=Cookie
+              - RewritePath=/damda-user/(?<segment>.*), /$\{segment}
+
+        - id: damda-user
+          uri: lb://DAMDA-USER
+          predicates:
+            - Path=/damda-user/users
+            - Method=POST
+            filters:
+              - RemoveRequestHeader=Cookie
+              - RewritePath=/damda-user/(?<segment>.*), /$\{segment}
+
         - id: damda-user
           uri: lb://DAMDA-USER
           predicates:
             - Path=/damda-user/**
-          filters:
-            - name: CustomFilter
-            - name: LoggingFilter
-              args:
-                baseMessage: Hi, there. Logging Filter
-                preLogger: true
-                postLogger: true
+            - Method=GET
+            filters:
+              - RemoveRequestHeader=Cookie
+              - RewritePath=/damda-user/(?<segment>.*), /$\{segment}
 
+        #PRODUCT Gateway
         - id: damda-product
           uri: lb://DAMDA-PRODUCT
           predicates:
             - Path=/damda-product/**
 
+        #ORDER Gateway
         - id: damda-order
           uri: lb://DAMDA-ORDER
           predicates:
