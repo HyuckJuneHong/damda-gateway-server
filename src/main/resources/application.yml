@@ -1,3 +1,6 @@
+jwt:
+  secret: local-jwt-key
+
 server:
   port: 8000
 
@@ -49,6 +52,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/damda-user/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
 
         #PRODUCT Gateway
         - id: damda-product

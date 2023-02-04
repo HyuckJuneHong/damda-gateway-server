@@ -30,9 +30,7 @@
     </li>
     <li>Eureka Server에 등록</li>
     <li>
-        <ul>
-            <li></li>
-        </ul>
+        Gateway Authorization Header Filet 구현
     </li>
 </ol>
 
