@@ -1,67 +1,17 @@
-jwt:
-  secret: local-jwt-key
-
-server:
-  port: 8000
-
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, info, httptrace, busrefresh
 
 spring:
-  application:
-    name: damda-gateway
+  profiles:
+    active: local
 
   cloud:
-    gateway:
-      default-filters:
-        - name: GlobalFilter
-          args:
-            baseMessage: Spring Cloud Gateway Global Filter
-            preLogger: true
-            postLogger: true
+    config:
+      name: damda-gateway
 
-      routes:
-        #USER Gateway
-        - id: damda-user
-          uri: lb://DAMDA-USER
-          predicates:
-            - Path=/damda-user/users/login
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/damda-user/(?<segment>.*), /$\{segment}
-
-        - id: damda-user
-          uri: lb://DAMDA-USER
-          predicates:
-            - Path=/damda-user/users
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/damda-user/(?<segment>.*), /$\{segment}
-
-        - id: damda-user
-          uri: lb://DAMDA-USER
-          predicates:
-            - Path=/damda-user/users/**
-            - Method=GET
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/damda-user/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter
-
-        #PRODUCT Gateway
-        - id: damda-product
-          uri: lb://DAMDA-PRODUCT
-          predicates:
-            - Path=/damda-product/**
-
-        #ORDER Gateway
-        - id: damda-order
-          uri: lb://DAMDA-ORDER
-          predicates:
-            - Path=/damda-order/**
+  config:
+    import: optional:configserver:http://localhost:8888/
+    #    import: configserver:http://ec2-13-124-159-0.ap-northeast-2.compute.amazonaws.com:8888/

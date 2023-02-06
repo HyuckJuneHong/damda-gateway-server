@@ -33,6 +33,12 @@ dependencies {
     //mac1 error
     implementation 'io.netty:netty-all'
 
+    //config
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-config'
+
+    //acutator
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+
     //jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
