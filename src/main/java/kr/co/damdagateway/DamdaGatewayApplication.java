@@ -11,5 +11,4 @@ public class DamdaGatewayApplication {
     public static void main(String[] args) {
         SpringApplication.run(DamdaGatewayApplication.class, args);
     }
-
 }
