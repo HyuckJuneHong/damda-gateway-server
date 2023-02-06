@@ -5,6 +5,9 @@ management:
         include: refresh, health, beans, info, httptrace, busrefresh
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
+
   profiles:
     active: local
 
