@@ -29,8 +29,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation group: 'javax.xml.bind', name: 'jaxb-api'
 
-    implementation project(':damda-core')
-
     //mac1 error
     implementation 'io.netty:netty-all'
 
@@ -51,6 +49,9 @@ dependencies {
 
     //gateway
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+
+//    //micrometer prometheus
+//    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus'
 }
 
 dependencyManagement {
